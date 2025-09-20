@@ -35,15 +35,17 @@ i{
 }
 
 .delete-div i{
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .delete-div i:hover, .delete-div i:focus{
     color: red;
+    transition: 0.3s;
 }
 
 .delete-div i:active{
     color: rgb(253, 73, 73);
+    transition: 0.1s ;
 }
 
 /* .delete-div{

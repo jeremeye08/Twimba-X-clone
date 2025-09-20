@@ -15,13 +15,11 @@ document.addEventListener('click', function(e){
         handleTweetBtnClick()
     } else if(e.target.dataset.comment){
         handleCommentBtnClick(e.target.dataset.comment)
+    } else if(e.target.dataset.delete){
+        handleDeleteBtnClick(e.target.dataset.delete)
     }
 })
  
-
-document.addEventListener('click',function(e){
-    console.log(e)
-})
 
 function handleLikeClick(tweetId){ 
     const targetTweetObj = tweetsData.filter(function(tweet){
@@ -35,7 +33,7 @@ function handleLikeClick(tweetId){
         targetTweetObj.likes++ 
     }
     targetTweetObj.isLiked = !targetTweetObj.isLiked
-    render()
+    render(tweetsData)
 }
 
 function handleRetweetClick(tweetId){
@@ -50,7 +48,7 @@ function handleRetweetClick(tweetId){
         targetTweetObj.retweets++
     }
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
-    render() 
+    render(tweetsData) 
 }
 
 function handleReplyClick(replyId){
@@ -72,7 +70,7 @@ function handleTweetBtnClick(){
             isRetweeted: false,
             uuid: uuidv4()
         })
-    render()
+    render(tweetsData)
     tweetInput.value = ''
     }
 
@@ -94,15 +92,23 @@ function handleCommentBtnClick(tweetId){
     if(commentInput){
         targetTweetObj.replies.push(newCommentObj)
         console.log(targetTweetObj.replies)
-        render()
+        render(tweetsData)
     }
     
 }
 
-function getFeedHtml(){
+function handleDeleteBtnClick(tweetId){
+    const tweetIndex = tweetsData.findIndex(tweet => tweet.uuid === tweetId)
+    if (tweetIndex > -1) {
+        tweetsData.splice(tweetIndex, 1)
+    }
+    render(tweetsData)
+}
+
+function getFeedHtml(mainArray){
     let feedHtml = ``
     
-    tweetsData.forEach(function(tweet){
+    mainArray.forEach(function(tweet){
         
         let likeIconClass = ''
         
@@ -116,6 +122,7 @@ function getFeedHtml(){
             retweetIconClass = 'retweeted'
         }
         
+        let deleteDivClass = tweet.handle === "@Scrimba" ? "delete-div" : "delete-div hidden"
 
         let commentHtml = `
 <div class="tweet-comment">
@@ -175,7 +182,7 @@ function getFeedHtml(){
                 </span>
             </div>   
         </div>
-        <div class="delete-div">
+        <div class=${deleteDivClass}>
             <i class="fa-solid fa-trash"
             data-delete="${tweet.uuid}"
             ></i>
@@ -191,9 +198,11 @@ function getFeedHtml(){
    return feedHtml 
 }
 
-function render(){
-    document.getElementById('feed').innerHTML = getFeedHtml()
+
+
+function render(renderMain){
+    document.getElementById('feed').innerHTML = getFeedHtml(renderMain)
 }
 
-render()
+render(tweetsData)
 
