@@ -174,7 +174,12 @@ function getFeedHtml(){
                     ${tweet.retweets}
                 </span>
             </div>   
-        </div>            
+        </div>
+        <div class="delete-div">
+            <i class="fa-solid fa-trash"
+            data-delete="${tweet.uuid}"
+            ></i>
+        </div>
     </div>
     <div id="replies-${tweet.uuid}">
         ${repliesHtml}
