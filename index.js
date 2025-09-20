@@ -188,7 +188,7 @@ function getFeedHtml(mainArray){
             ></i>
         </div>
     </div>
-    <div id="replies-${tweet.uuid}">
+    <div id="replies-${tweet.uuid}" class="hidden">
         ${repliesHtml}
         ${commentHtml}
     </div>   
